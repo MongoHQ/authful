@@ -1,71 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Authful by MongoHQ</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Authful : API service for 2FA" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Authful</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Authful</h1>
-        <p>API service for 2FA</p>
 
-        <p class="view"><a href="https://github.com/MongoHQ/authful">View the Project on GitHub <small>MongoHQ/authful</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MongoHQ/authful">View on GitHub</a>
 
+          <h1 id="project_title">Authful</h1>
+          <h2 id="project_tagline">API service for 2FA</h2>
 
-        <ul>
-          <li><a href="https://github.com/MongoHQ/authful/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/MongoHQ/authful/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/MongoHQ/authful">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/MongoHQ/authful/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/MongoHQ/authful/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="authful" class="anchor" href="#authful"><span class="octicon octicon-link"></span></a>Authful</h1>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>Authful was written as an internal app for MongoHQ to be used with our web application.
+It supports multiple accounts and could be made into a public 2FA service, although there is no frontend on it at this point. We use multiple accounts to allow for staging and testing setups that are seperate.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>We are opensourcing this effort so that the community can have a 2FA solution that doesn't involve being locked in to vendor phone apps. We are accepting pull requests that add/imrove a UI for viewing and managing accounts and users as well as any bug fixes.</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Authful is a 2fa engine.  It behaves in the truest sense of SOA, and should be used as an 
+API behind the scenes of your application.  The purposes of Authful are:</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<ul>
+<li>Manage users for 2fa including:
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>enrolling / unenrolling users with either SMS or QR codes</li>
+<li>validating user tokens</li>
+<li>reseting tokens</li>
+<li>managing recovery codes</li>
+</ul>
+</li>
+<li>Generate QR codes for (RFC 6238 - TOTP)[<a href="https://tools.ietf.org/html/rfc6238">https://tools.ietf.org/html/rfc6238</a>]</li>
+</ul><h2>
+<a name="requirements--starting" class="anchor" href="#requirements--starting"><span class="octicon octicon-link"></span></a>Requirements &amp; Starting</h2>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li>Ruby 2.0.0-px</li>
+<li>MongoDB - be sure your config/mongoid.yml file is configured correctly</li>
+<li>Twilio Account with the following environmental variables set:
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li>TWILIO_SID</li>
+<li>TWILIO_TOKEN</li>
+<li>TWILIO_FROM</li>
+</ul>
+</li>
+</ul><p>Gem installation is a simple <code>gem install bundler &amp;&amp; bundle install</code></p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>After installing the gems, you can run the application locally by running <code>rackup -p 4000</code>.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h2>
+<a name="testing-the-platform" class="anchor" href="#testing-the-platform"><span class="octicon octicon-link"></span></a>Testing the platform</h2>
+
+<p><strong>Create a dummy account</strong>
+From <code>bash</code>, run:</p>
+
+<div class="highlight highlight-bash"><pre>rake db:seed
+</pre></div>
+
+<p>You will see output with tokens to use for auth and sample curl commands. <strong>Note: The tokens in the snippet below will not work on your dev setup. You will need to get them from your console output.</strong></p>
+
+<div class="highlight highlight-bash"><pre>Account Token: 5i4ximidh3d7q3o2
+   User Token: nsaxk2
+  Current OTP: 734637
+
+** Viewing QR Code **
+http://authful.dev/qr/nsaxk2.png
+
+** Enrolling a user **
+curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
+
+** Validating Code **
+curl -X GET http://authful.dev/api/users/nsaxk2/validate -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">token</span><span class="o">=</span>734637
+
+** Unenrolling a user **
+curl -X DELETE http://authful.dev/api/users/nsaxk2 -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span>
+</pre></div>
+
+<p><strong>Enrolling a user via app</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt;
+</pre></div>
+
+<p><strong>Enrolling a user via sms</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
+</pre></div>
+
+<p><strong>View a user</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Requesting a code via SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/send_sms -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Validating Code</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/validate -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">token</span><span class="o">=</span>&lt;token generated or recieved via sms&gt;
+</pre></div>
+
+<p><strong>Register a fallback SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X PATCH http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">phone</span><span class="o">=</span>&lt;phone number&gt;
+</pre></div>
+
+<p><strong>Send code to a fallback SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Generate recovery codes</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>View remaining recovery codes</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Validate recovery code</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes/&lt;recovery-code&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Unenrolling a user</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X DELETE http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<h2>
+<a name="phone-number-validation" class="anchor" href="#phone-number-validation"><span class="octicon octicon-link"></span></a>Phone Number Validation</h2>
+
+<p>Authful valdiates phone numbers using <a href="https://code.google.com/p/libphonenumber/">Google libphonenumber</a>.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/MongoHQ">MongoHQ</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Authful maintained by <a href="https://github.com/MongoHQ">MongoHQ</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>

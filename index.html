@@ -1,170 +1,237 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Authful by MongoHQ</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Authful - An open-source API for Two Factor Authentication.</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="assets/js/chart.js"></script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Authful</h1>
-        <p>API service for 2FA</p>
 
-        <p class="view"><a href="https://github.com/MongoHQ/authful">View the Project on GitHub <small>MongoHQ/authful</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/MongoHQ/authful/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/MongoHQ/authful/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/MongoHQ/authful">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a name="authful" class="anchor" href="#authful"><span class="octicon octicon-link"></span></a>Authful</h1>
-
-<p>Authful was written as an internal app for MongoHQ to be used with our web application.
-It supports multiple accounts and could be made into a public 2FA service, although there is no frontend on it at this point. We use multiple accounts to allow for staging and testing setups that are seperate.</p>
-
-<p>We are opensourcing this effort so that the community can have a 2FA solution that doesn't involve being locked in to vendor phone apps. We are accepting pull requests that add/imrove a UI for viewing and managing accounts and users as well as any bug fixes.</p>
-
-<h2>
-<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
-
-<p>Authful is a 2fa engine.  It behaves in the truest sense of SOA, and should be used as an 
-API behind the scenes of your application.  The purposes of Authful are:</p>
-
-<ul>
-<li>Manage users for 2fa including:
-
-<ul>
-<li>enrolling / unenrolling users with either SMS or QR codes</li>
-<li>validating user tokens</li>
-<li>reseting tokens</li>
-<li>managing recovery codes</li>
-</ul>
-</li>
-<li>Generate QR codes for (RFC 6238 - TOTP)[<a href="https://tools.ietf.org/html/rfc6238">https://tools.ietf.org/html/rfc6238</a>]</li>
-</ul><h2>
-<a name="requirements--starting" class="anchor" href="#requirements--starting"><span class="octicon octicon-link"></span></a>Requirements &amp; Starting</h2>
-
-<ul>
-<li>Ruby 2.0.0-px</li>
-<li>MongoDB - be sure your config/mongoid.yml file is configured correctly</li>
-<li>Twilio Account with the following environmental variables set:
-
-<ul>
-<li>TWILIO_SID</li>
-<li>TWILIO_TOKEN</li>
-<li>TWILIO_FROM</li>
-</ul>
-</li>
-</ul><p>Gem installation is a simple <code>gem install bundler &amp;&amp; bundle install</code></p>
-
-<p>After installing the gems, you can run the application locally by running <code>rackup -p 4000</code>.</p>
-
-<h2>
-<a name="testing-the-platform" class="anchor" href="#testing-the-platform"><span class="octicon octicon-link"></span></a>Testing the platform</h2>
-
-<p><strong>Create a dummy account</strong>
-From <code>bash</code>, run:</p>
-
-<div class="highlight highlight-bash"><pre>rake db:seed
-</pre></div>
-
-<p>You will see output with tokens to use for auth and sample curl commands. <strong>Note: The tokens in the snippet below will not work on your dev setup. You will need to get them from your console output.</strong></p>
-
-<div class="highlight highlight-bash"><pre>Account Token: 5i4ximidh3d7q3o2
-   User Token: nsaxk2
-  Current OTP: 734637
-
-** Viewing QR Code **
-http://authful.dev/qr/nsaxk2.png
-
-** Enrolling a user **
-curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
-
-** Validating Code **
-curl -X GET http://authful.dev/api/users/nsaxk2/validate -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">token</span><span class="o">=</span>734637
-
-** Unenrolling a user **
-curl -X DELETE http://authful.dev/api/users/nsaxk2 -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span>
-</pre></div>
-
-<p><strong>Enrolling a user via app</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt;
-</pre></div>
-
-<p><strong>Enrolling a user via sms</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
-</pre></div>
-
-<p><strong>View a user</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>Requesting a code via SMS</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/send_sms -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>Validating Code</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/validate -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">token</span><span class="o">=</span>&lt;token generated or recieved via sms&gt;
-</pre></div>
-
-<p><strong>Register a fallback SMS</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X PATCH http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">phone</span><span class="o">=</span>&lt;phone number&gt;
-</pre></div>
-
-<p><strong>Send code to a fallback SMS</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>Generate recovery codes</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>View remaining recovery codes</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>Validate recovery code</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes/&lt;recovery-code&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<p><strong>Unenrolling a user</strong></p>
-
-<div class="highlight highlight-bash"><pre>curl -X DELETE http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
-</pre></div>
-
-<h2>
-<a name="phone-number-validation" class="anchor" href="#phone-number-validation"><span class="octicon octicon-link"></span></a>Phone Number Validation</h2>
-
-<p>Authful valdiates phone numbers using <a href="https://code.google.com/p/libphonenumber/">Google libphonenumber</a>.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/MongoHQ">MongoHQ</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><i class="fa fa-lock"></i></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="http://www.github.com/authful"><i class="fa fa-github-alt fa-lg"></i>&nbsp;View the Project</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+
+	<div id="hello">
+	    <div class="container">
+	    	<div class="row">
+	    		<div class="col-lg-8 col-lg-offset-2 centered">
+	    			<h1>Authful</h1>
+	    			<h2>An open-source API for Two Factor Authentication. By MongoHQ.</h2>
+	    		</div><!-- /col-lg-8 -->
+	    	</div><!-- /row -->
+	    </div> <!-- /container -->
+	</div><!-- /hello -->
+	
+	<div id="green">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 centered">
+					<img src="assets/img/iphone.png" alt="">
+				</div>
+				
+				<div class="col-lg-7 centered">
+					<h3>THE EASIEST WAY TO IMPLEMENT 2FA</h3>
+					<p>After evaluating some of the popular two factor authentication services on the market, we noticed that they require users to download and use that service's mobile app. We believe users should have a choice which mobile app they use. We wanted to keep it open.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row centered mt grid">
+			<h3>Features</h3>
+			<div class="mt"></div>
+			<div class="col-lg-4">
+				<i class="fa fa-mobile fa-5x">&nbsp;</i>
+        <h3>Support for multiple mobile apps</h3>
+			</div>
+			<div class="col-lg-4">
+				<i class="fa fa-comment-o fa-5x">&nbsp;</i>
+        <h3>SMS integration</h3>
+			</div>
+			<div class="col-lg-4">
+				<i class="fa fa-ambulance fa-5x">&nbsp;</i>
+        <h3>Fallback numbers and recovery codes</h3>
+			</div>
+		</div>
+		
+		<div class="row centered mt grid">
+			<div class="mt"></div>		
+			<div class="col-lg-4">
+				<a href="#"><img src="assets/img/04.jpg" alt=""></a>
+			</div>
+			<div class="col-lg-4">
+				<a href="#"><img src="assets/img/05.jpg" alt=""></a>
+			</div>
+			<div class="col-lg-4">
+				<a href="#"><img src="assets/img/06.jpg" alt=""></a>
+			</div>
+		</div>
+		
+		<div class="row mt centered">
+			<div class="col-lg-7 col-lg-offset-1 mt">
+					<p class="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+			</div>
+			
+			<div class="col-lg-3 mt">
+				<p><button type="button" class="btn btn-theme btn-lg">Email Me!</button></p>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="skills">
+		<div class="container">
+			<div class="row centered">
+				<h3>OUR SKILLS</h3>
+				<div class="col-lg-3 mt">
+					<canvas id="javascript" height="130" width="130"></canvas>
+					<p>Javascript</p>
+					<br>
+					<script>
+						var doughnutData = [
+								{
+									value: 70,
+									color:"#74cfae"
+								},
+								{
+									value : 30,
+									color : "#3c3c3c"
+								}
+							];
+							var myDoughnut = new Chart(document.getElementById("javascript").getContext("2d")).Doughnut(doughnutData);
+					</script>
+				</div>
+				<div class="col-lg-3 mt">
+					<canvas id="bootstrap" height="130" width="130"></canvas>
+					<p>Bootstrap</p>
+					<br>
+					<script>
+						var doughnutData = [
+								{
+									value: 90,
+									color:"#74cfae"
+								},
+								{
+									value : 10,
+									color : "#3c3c3c"
+								}
+							];
+							var myDoughnut = new Chart(document.getElementById("bootstrap").getContext("2d")).Doughnut(doughnutData);
+					</script>
+				</div>
+				<div class="col-lg-3 mt">
+					<canvas id="wordpress" height="130" width="130"></canvas>
+					<p>Wordpress</p>
+					<br>
+					<script>
+						var doughnutData = [
+								{
+									value: 65,
+									color:"#74cfae"
+								},
+								{
+									value : 35,
+									color : "#3c3c3c"
+								}
+							];
+							var myDoughnut = new Chart(document.getElementById("wordpress").getContext("2d")).Doughnut(doughnutData);
+					</script>
+				</div>
+				<div class="col-lg-3 mt">
+					<canvas id="photoshop" height="130" width="130"></canvas>
+					<p>Photoshop</p>
+					<br>
+					<script>
+						var doughnutData = [
+								{
+									value: 50,
+									color:"#74cfae"
+								},
+								{
+									value : 50,
+									color : "#3c3c3c"
+								}
+							];
+							var myDoughnut = new Chart(document.getElementById("photoshop").getContext("2d")).Doughnut(doughnutData);
+					</script>
+				</div>
+			</div><!-- /row -->
+		</div><!-- /container -->
+	</div><!-- /skills -->
+	
+	<section id="contact"></section>
+	<div id="social">
+		<div class="container">
+			<div class="row centered">
+				<div class="col-lg-8 col-lg-offset-2">
+					<div class="col-md-3">
+						<a href="#"><i class="fa fa-facebook"></i></a>
+					</div>
+					<div class="col-md-3">
+						<a href="#"><i class="fa fa-dribbble"></i></a>
+					</div>
+					<div class="col-md-3">
+						<a href="#"><i class="fa fa-twitter"></i></a>
+					</div>
+					<div class="col-md-3">
+						<a href="#"><i class="fa fa-envelope"></i></a>
+					</div>
+				</div>
+			</div>
+		</div><!-- /container -->
+	</div><!-- /social -->
+
+
+	<div id="f">
+		<div class="container">
+			<div class="row">
+				<p>Crafted with <i class="fa fa-heart"></i> by BlackTie.co.</p>
+			</div>
+		</div>
+	</div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/bootstrap.js"></script>
   </body>
 </html>

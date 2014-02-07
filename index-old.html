@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Authful by MongoHQ</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Authful</h1>
+        <p>API service for 2FA</p>
+
+        <p class="view"><a href="https://github.com/MongoHQ/authful">View the Project on GitHub <small>MongoHQ/authful</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/MongoHQ/authful/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/MongoHQ/authful/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/MongoHQ/authful">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="authful" class="anchor" href="#authful"><span class="octicon octicon-link"></span></a>Authful</h1>
+
+<p>Authful was written as an internal app for MongoHQ to be used with our web application.
+It supports multiple accounts and could be made into a public 2FA service, although there is no frontend on it at this point. We use multiple accounts to allow for staging and testing setups that are seperate.</p>
+
+<p>We are opensourcing this effort so that the community can have a 2FA solution that doesn't involve being locked in to vendor phone apps. We are accepting pull requests that add/imrove a UI for viewing and managing accounts and users as well as any bug fixes.</p>
+
+<h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>Authful is a 2fa engine.  It behaves in the truest sense of SOA, and should be used as an 
+API behind the scenes of your application.  The purposes of Authful are:</p>
+
+<ul>
+<li>Manage users for 2fa including:
+
+<ul>
+<li>enrolling / unenrolling users with either SMS or QR codes</li>
+<li>validating user tokens</li>
+<li>reseting tokens</li>
+<li>managing recovery codes</li>
+</ul>
+</li>
+<li>Generate QR codes for (RFC 6238 - TOTP)[<a href="https://tools.ietf.org/html/rfc6238">https://tools.ietf.org/html/rfc6238</a>]</li>
+</ul><h2>
+<a name="requirements--starting" class="anchor" href="#requirements--starting"><span class="octicon octicon-link"></span></a>Requirements &amp; Starting</h2>
+
+<ul>
+<li>Ruby 2.0.0-px</li>
+<li>MongoDB - be sure your config/mongoid.yml file is configured correctly</li>
+<li>Twilio Account with the following environmental variables set:
+
+<ul>
+<li>TWILIO_SID</li>
+<li>TWILIO_TOKEN</li>
+<li>TWILIO_FROM</li>
+</ul>
+</li>
+</ul><p>Gem installation is a simple <code>gem install bundler &amp;&amp; bundle install</code></p>
+
+<p>After installing the gems, you can run the application locally by running <code>rackup -p 4000</code>.</p>
+
+<h2>
+<a name="testing-the-platform" class="anchor" href="#testing-the-platform"><span class="octicon octicon-link"></span></a>Testing the platform</h2>
+
+<p><strong>Create a dummy account</strong>
+From <code>bash</code>, run:</p>
+
+<div class="highlight highlight-bash"><pre>rake db:seed
+</pre></div>
+
+<p>You will see output with tokens to use for auth and sample curl commands. <strong>Note: The tokens in the snippet below will not work on your dev setup. You will need to get them from your console output.</strong></p>
+
+<div class="highlight highlight-bash"><pre>Account Token: 5i4ximidh3d7q3o2
+   User Token: nsaxk2
+  Current OTP: 734637
+
+** Viewing QR Code **
+http://authful.dev/qr/nsaxk2.png
+
+** Enrolling a user **
+curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
+
+** Validating Code **
+curl -X GET http://authful.dev/api/users/nsaxk2/validate -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span> -d <span class="nv">token</span><span class="o">=</span>734637
+
+** Unenrolling a user **
+curl -X DELETE http://authful.dev/api/users/nsaxk2 -H <span class="s2">"Api-Token: 5i4ximidh3d7q3o2"</span>
+</pre></div>
+
+<p><strong>Enrolling a user via app</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt;
+</pre></div>
+
+<p><strong>Enrolling a user via sms</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">email</span><span class="o">=</span>&lt;user-email&gt; -d <span class="nv">phone</span><span class="o">=</span>&lt;phone-number&gt;
+</pre></div>
+
+<p><strong>View a user</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Requesting a code via SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/send_sms -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Validating Code</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/validate -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">token</span><span class="o">=</span>&lt;token generated or recieved via sms&gt;
+</pre></div>
+
+<p><strong>Register a fallback SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X PATCH http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span> -d <span class="nv">phone</span><span class="o">=</span>&lt;phone number&gt;
+</pre></div>
+
+<p><strong>Send code to a fallback SMS</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/fallback -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Generate recovery codes</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X POST http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>View remaining recovery codes</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Validate recovery code</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X GET http://authful.dev/api/users/&lt;user-token&gt;/recovery_codes/&lt;recovery-code&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<p><strong>Unenrolling a user</strong></p>
+
+<div class="highlight highlight-bash"><pre>curl -X DELETE http://authful.dev/api/users/&lt;user-token&gt; -H <span class="s2">"Api-Token: &lt;account-token&gt;"</span>
+</pre></div>
+
+<h2>
+<a name="phone-number-validation" class="anchor" href="#phone-number-validation"><span class="octicon octicon-link"></span></a>Phone Number Validation</h2>
+
+<p>Authful valdiates phone numbers using <a href="https://code.google.com/p/libphonenumber/">Google libphonenumber</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/MongoHQ">MongoHQ</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

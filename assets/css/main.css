@@ -97,7 +97,7 @@ a:after {
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
 	color: #ffffff;
-	background-color: #74cfae;
+	background-color: #4989dc;
 }
 
 .navbar-brand {
@@ -106,10 +106,14 @@ a:after {
 	padding-bottom: 0px;
 }
 
-.btn-theme {
+.btn-theme, .btn-theme-blue {
 	color: #ffffff;
 	background-color: #74cfae;
 	border-color: transparent;
+}
+
+.btn-theme-blue {
+  background-color: #4989dc;
 }
 
 .btn {
@@ -137,7 +141,9 @@ a:after {
 	font-size: 90px;
 	font-weight: 700;
 	letter-spacing: 3px;
-	color: #74cfae;
+	/*color: #74cfae;*/
+  color: #4989dc;
+  
 }
 
 #hello h2 {
@@ -146,19 +152,23 @@ a:after {
 }
 
 /* Green */
-#green {
+#green, #blue {
 	background-color: #74cfae;
 	padding-top: 50px;
 	margin-bottom: 0px;
 }
 
-#green h3 {
+#blue {
+  background-color: #4989dc;
+}
+
+#green h3, #blue h3 {
 	color: white;
 	font-weight: 400;
 	margin-bottom: 35px;
 }
 
-#green p {
+#green p, #blue p {
 	color: white;
 	font-weight: 400;
 	font-size: 20px;

@@ -1,0 +1,60 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+
+    /! Always force latest IE rendering engine or request Chrome Frame
+    meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+
+    /! Use title if it's in the page YAML frontmatter
+    title == data.page.title || "Authful by MongoHQ"
+
+    == stylesheet_link_tag "site"
+
+  body class="#{page_classes} preload"
+
+    header.branding
+      h1.logo
+        a href="/" MongoHQ
+      nav.main-nav role="navigation"
+        ul
+          li
+            a href="https://github.com/mongohq/authful"
+              span.icon-github
+              | View the Project
+
+    main.content
+      == yield
+
+    footer.colophon
+      / .column.one-fourth
+      /   h5 Company
+      /   ul.unstyled
+      /     li: a href="/about-us/" About Us
+      /     li: a href="/jobs/" We Are Hiring!
+      /     li: a href="//docs.mongohq.com/policies/terms.html" Terms of Service
+      /     li: a href="//docs.mongohq.com/policies/privacy.html" Privacy Policy
+      /     li: a href="//docs.mongohq.com/policies/cancellation.html" Policies
+      /     li: a href="https://support.mongohq.com/support/new_request.html?page=www" Contact Us
+      / .column.one-fourth
+      /   h5 Support
+      /   ul.unstyled
+      /     li: a href="//support.mongohq.com" Support
+      /     li: a href="//status.mongohq.com" System Status
+      /     li: a href="//blog.mongohq.com" MongoHQ Blog
+      /     li: a href="//docs.mongohq.com" MongoHQ Docs
+      / .column.one-fourth
+      /   h5 Service &amp; Features
+      /   ul.unstyled
+      /     li: a href="/mongodb-as-a-service/" MongoDB as a Service
+      /     li: a href="/pricing/" MongoDB Hosting Plans &amp; Pricing
+      /     li: a href="/features/" Platform Features
+      / .column.one-fourth
+      /   h5 Deploy Locations
+      /   ul.unstyled
+      /     li: a href="/aws/" AWS
+      /     li: a href="/softlayer/" SoftLayer
+      /     li: a href="/heroku/" Heroku
+      p.copyright &copy; 2013 MongoHQ. All rights reserved.
+
+    == javascript_include_tag  "all"

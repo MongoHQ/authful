@@ -1,0 +1,41 @@
+/* =====================================================================
+ * Mixins
+ * ===================================================================== */
+
+$black:       #2D333B;
+$liteblack:   #828E9E;
+
+$gray:        #B3B9BC;
+$litegray:    #E2E6E8;
+
+$cream:       #F7F8F9;
+$white:       #FFFFFF;
+
+$red:         #DA4453;
+$blue:        #4A89DC;
+$pink:        #F92672;
+$green:       #7EC135;
+$yellow:      #F6BB42;
+$orange:      #E9573F;
+$purple:      #967ADC;
+$babyblue:    #82C1ED;
+$darkblue:    #427BC5;
+$liteblue:    #5D9CEC;
+
+$code-purple: #8868BC;
+$code-green:  #539F50;
+$code-yellow: #E6DB74;
+$code-orange: #FD971F;
+$code-red:    #DB4139;
+
+// Turn font smoothing on/off — http://bit.ly/1fej9qd
+@mixin font-smoothing($value: on) {
+  @if $value == on {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  @else {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
+}

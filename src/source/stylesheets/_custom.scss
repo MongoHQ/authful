@@ -1,0 +1,16 @@
+/* =====================================================================
+ * Non-standard custom styles
+ * ===================================================================== */
+
+.iphone {
+  display: inline-block;
+  width: 28rem;
+  height: 57rem;
+  background: url('../images/iphone-outline.svg') no-repeat center;
+  background-size: 100% auto;
+
+  @media (max-width: 700px) {
+    height: 20rem;
+    background-position: top center;
+  }
+}

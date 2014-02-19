@@ -1,0 +1,778 @@
+/* =====================================================================
+ * Base styles
+ * ===================================================================== */
+
+html, body {
+  height: 100%;
+  max-height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: $cream;
+}
+
+// Kill transitions before page load
+.preload * { transition: none !important; }
+
+// Border box FTW
+* { box-sizing: border-box; }
+
+.row {
+  display: table;
+  table-layout: fixed;
+  min-width: 100%;
+}
+
+// Main content
+.content {
+  position: relative;
+  width: 100%;
+}
+
+// Columns
+.column {
+  vertical-align: top;
+  display: table-cell;
+
+  :last-child { margin-bottom: 0; }
+}
+
+// Responsive images
+figure, img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+
+/* ============================================================
+ * Header & Navbar
+ * ============================================================ */
+
+.branding {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 6rem;
+  line-height: 6rem;
+  font-size: 1.4rem;
+  z-index: 999;
+  transform: translateY(0);
+  transform: translate3d(0,0,0);
+  transition: .25s transform;
+  backface-visibility: hidden;
+  background: $red;
+}
+
+.heads-up {
+  transform: translateY(-6rem);
+  transform: translate3d(0,-6rem,0);
+}
+
+.branding .logo {
+  display: block;
+  float: left;
+  font-size: 0;
+  padding: 0;
+  margin: 0 0 0 1.3rem;
+
+  a {
+    display: block;
+    width: 12.8rem;
+    height: 6rem;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjcwIDMwIDE2MCA0MCI+PHN0eWxlPi5zdHlsZTB7ZmlsbDoJI0ZGRjt9PC9zdHlsZT48cGF0aCBkPSJNODkuNjEyIDU1LjIxMmgwLjAxNXYtMC4wMThsLTYuNzgyLTYuNzgyYy0wLjA3LTAuMDY1LTAuMTctMC4wNjUtMC4yMzQgMGwtMi4zNDQgMi4zIGMtMC4wNjYgMC4wNjYtMC4wNyAwLjIgMCAwLjIyOWw2Ljc4MiA2Ljc4OGMwLjA1OSAwLjEgMC4yIDAuMSAwLjIgMGwyLjM0Ny0yLjM1MSBDODkuNjk4IDU1LjQgODkuNyA1NS4zIDg5LjYgNTUuMjEyeiIgY2xhc3M9InN0eWxlMCIvPjxwYXRoIGQ9Ik05My43MDYgNTIuOTQzaDAuMDM3djAuMDJsLTUuNzEzIDUuNzA4Yy0wLjA0NCAwLjA0OC0wLjA2IDAuMTEzLTAuMDQ0IDAuMTZsMS4wNCA0LjEgYzAuMDE1IDAuMSAwLjEgMC4xIDAuMSAwbDIuOTU4LTIuOTUxYzAuMDQ0LTAuMDUyIDAuMDg3LTAuMTE1IDAuMTAzLTAuMTc5bDEuNjU1LTYuODMgQzkzLjkyNSA1Mi45IDkzLjggNTIuOSA5My43IDUyLjk0M3oiIGNsYXNzPSJzdHlsZTAiLz48cGF0aCBkPSJNNzcuODA3IDU1LjA5MWgtMC4wNDR2MC4wMTJjLTAuNzM4IDAuNzM4LTEuMSAxLjcyMi0xLjA2OSAyLjY4OGMwLjE5MS0wLjMzIDAuNTQyLTAuNzgzIDEuMTI5LTEuMTkgYzAuNzktMC41NDUgMS41MzctMC4zMTIgMS43IDAuMTZjMC4yMTIgMC40OTktMC4yMTMgMC45NzMtMC44MjggMS4yNmMtMC44NzggMC40MDQtMS40OTQgMC41MjgtMi4zODggMS40IGMtMC44ODcgMC44OTUtMS42MDMgMi40NDUtMC43NDcgNGMtMC4yNDktMS44MSAxLjc0My0yLjc4NCAzLjM1NC0zLjAwN2MxLjEyNS0wLjE1OSAyLjAyMS0wLjc4MSAyLjQ2LTEuNzQ5IGMwIDAgMC4yIDEuNTcyLTEuODc1IDIuNTYxYzEuMTg3IDAuMyAyLjQ3Ny0wLjA2IDMuMzk5LTAuOTc3YzEuNDM2LTEuNDM1IDEuNDM2LTMuNzQ4IDAtNS4xNzggQzgxLjUxOSA1My42IDc5LjIgNTMuNiA3Ny44IDU1LjA5MXoiIGNsYXNzPSJzdHlsZTAiLz48cGF0aCBkPSJNMTAxLjM5IDM2LjYzNmMtMy44OTYtMC4zNDQtNy45MTUgMC45NTgtMTAuOTI4IDMuOTA1Yy0wLjA1OSAwLjA2NC0wLjA0NSAwLjIgMCAwLjIxM2w2Ljc4MiA2LjggYzAuMDU5IDAuMSAwLjIgMC4xIDAuMiAwYzIuOTc5LTMuMDEyIDQuMjU2LTcuMDEyIDMuOTU2LTEwLjg5OEwxMDEuMzkgMzYuNjM2eiIgY2xhc3M9InN0eWxlMCIvPjxwb2x5Z29uIHBvaW50cz0iODMuNyw0Ny42IDgzLjcsNDcuNiA4My43LDQ3LjYiIGNsYXNzPSJzdHlsZTAiLz48cGF0aCBkPSJNODMuNjg1IDQ3LjZoLTAuMDA1bDYuNzY5IDYuNzY4YzAuMDY4IDAuMSAwLjIgMC4xIDAuMiAwbDIuMzQ0LTIuMzQ0IGMwLjA2OC0wLjA2NiAwLjA2Ny0wLjE3MSAwLTAuMjM0bC02Ljc5NS02Ljc2OGMtMC4wNTktMC4wNjYtMC4xNjEtMC4wNjYtMC4yMjkgMGwtMi4zNSAyLjMgQzgzLjYwNiA0Ny41IDgzLjYgNDcuNSA4My43IDQ3LjZ6IiBjbGFzcz0ic3R5bGUwIi8+PHBhdGggZD0iTTc5LjM5IDQ5Ljk4Mmw1LjcwOC01LjY4NmMwLjEwNy0wLjA0OC0wLjAxNC0wLjE3NS0wLjEwNi0wLjE1NGwtNi44MzQgMS43IGMtMC4wNjkgMC4wMTUtMC4xMzIgMC4wNTItMC4xNzYgMC4xMDNsLTIuOTU5IDIuOTUyYy0wLjA0MyAwLjA1Mi0wLjAxOSAwLjEgMCAwLjE1NGw0LjExMiAxIEM3OS4yOCA1MCA3OS4zIDUwIDc5LjQgNDkuOTgyeiIgY2xhc3M9InN0eWxlMCIvPjxwb2x5Z29uIHBvaW50cz0iNzkuMiw1MC4xIDc5LjIsNTAuMSA3OS4yLDUwLjEiIGNsYXNzPSJzdHlsZTAiLz48cGF0aCBkPSJNODkuNjQzIDQxLjYwMnYwLjAwN2MtMC4wNi0wLjA2NC0wLjE2Mi0wLjA2NC0wLjIyMiAwbC0yLjM1MiAyLjMzNGMtMC4wNjUgMC4wNjEtMC4wNjUgMC4yIDAgMC4yIGw2Ljc4OSA2Ljc4N2MwLjA2IDAuMSAwLjIgMC4xIDAuMiAwbDIuMzU1LTIuMzQ4YzAuMDYxLTAuMDY2IDAuMDYxLTAuMTY4IDAtMC4yMzJMODkuNjQzIDQxLjYwMnoiIGNsYXNzPSJzdHlsZTAiLz48cG9seWdvbiBwb2ludHM9IjIwNC40LDQ5LjMgMTk1LjgsNDkuMyAxOTUuOCw0My45IDE5Mi44LDQzLjkgMTkyLjgsNTcuNyAxOTUuOCw1Ny43IDE5NS44LDUyLjMgMjA0LjQsNTIuMyAyMDQuNCw1Ny43IDIwNy40LDU3LjcgMjA3LjQsNDMuOSAyMDQuNCw0My45IiBjbGFzcz0ic3R5bGUwIi8+PHBhdGggZD0iTTIxNi41IDQ4LjMyNmgtMC4wMzJjLTEuMzU0IDAtMi40NDYgMS4wOTgtMi40NDYgMi40NTNjMCAxLjQgMS4xIDIuNCAyLjQgMi40IGMxLjM1IDAgMi40NDctMS4wOTEgMi40NDctMi40NDZDMjE4LjkxNCA0OS40IDIxNy44IDQ4LjMgMjE2LjUgNDguMzI2eiIgY2xhc3M9InN0eWxlMCIvPjxwYXRoIGQ9Ik0xODMuMzMzIDQzLjQ2Yy00LjAyMyAwLTcuMjkzIDMuMjY2LTcuMjkzIDcuMjk0YzAgNCAzLjMgNy4zIDcuMyA3LjMgYzQuMDI4LTAuMDIgNy4yOTUtMy4yODMgNy4yOTUtNy4zMDZsLTAuMDQzIDAuMDYzQzE5MC41ODUgNDYuOCAxODcuNCA0My41IDE4My4zIDQzLjQ2eiBNMTgzLjMwOSA1NS41IGMtMi42MTQtMC4wNTUtNC42OTMtMi4xMzQtNC42OTMtNC43NDdjMC0yLjU3OSAyLjExLTQuNyA0LjcxOC00LjdjMi42MSAwIDQuNyAyLjEgNC43IDQuNzI4VjUwLjhoMC4wMyBDMTg4LjA5NCA1My41IDE4NS45IDU1LjYgMTgzLjMgNTUuNDk4eiIgY2xhc3M9InN0eWxlMCIvPjxwYXRoIGQ9Ik0yMjIuNTczIDU0Ljc3N2MwLjc1Ni0xLjE0OCAxLjItMi41MjUgMS4yLTMuOTk4YzAtMy45ODgtMy4yNzgtNy4yOTQtNy4zMDYtNy4yOTQgYy00LjAyOCAwLTcuMjk0IDMuMjY2LTcuMjk0IDcuMjk0YzAgNCAzLjMgNy4zIDcuMyA3LjI4N2MxLjQ3OSAwIDIuODQzLTAuNDM5IDMuOTk4LTEuMTkzbDIuNDQzIDIuNDM5TDIyNSA1Ny4yIEwyMjIuNTczIDU0Ljc3N3ogTTIxNi40NjYgNTUuMDU2Yy0yLjM4NiAwLTQuMzE5LTEuOTMyLTQuMzE5LTQuMzJjMC0yLjM4OSAxLjkzNC00LjMyOSA0LjMyMS00LjMyOXM0LjMyMSAxLjkgNC4zIDQuMyBsMC4wMyAwLjA2M0MyMjAuODE5IDUzLjIgMjE4LjkgNTUuMiAyMTYuNSA1NS4wNTZ6IiBjbGFzcz0ic3R5bGUwIi8+PHBhdGggZD0iTTEzNC4xNjYgNDMuNTA0Yy00LjAyMSAwLTcuMjg4IDMuMjY2LTcuMjg4IDcuMjk1YzAgNCAzLjMgNy4zIDcuMyA3LjMgYzQuMDMtMC4wMiA3LjI5MS0zLjI4NCA3LjI5MS03LjMwN3YwLjAyMWgwLjA2OUMxNDEuNTI1IDQ2LjggMTM4LjIgNDMuNSAxMzQuMiA0My41MDR6IE0xMzQuMTM0IDU1LjUgYy0yLjYxMy0wLjA1NC00LjY5My0yLjEzNC00LjY5My00Ljc0N2MwLTIuNjA2IDIuMTE4LTQuNzI4IDQuNzI1LTQuNzI4YzIuNjE1IDAgNC43IDIuMSA0LjcgNC43MjhWNTAuOGgwLjAwMiBDMTM4Ljg5MyA1My41IDEzNi44IDU1LjYgMTM0LjEgNTUuNTI1eiIgY2xhc3M9InN0eWxlMCIvPjxwYXRoIGQ9Ik0xMTkuNiA0My40ODVoLTAuMDM4Yy0xLjcwOCAwLTMuMjE3IDAuNzY5LTQuMjI4IDIuMDI2Yy0xLjAxMS0xLjIwOC0yLjUzMy0xLjk3OC00LjIzMy0xLjk3OCBjLTMuMDMyIDAtNS41MDggMi40NjgtNS41MDggNS41MDl2OC42N2gyLjU3di04LjY5OGMwLTEuNjI2IDEuMzE0LTIuOTQyIDIuOTM4LTIuOTQyYzEuNjI3IDAgMi45IDEuMyAyLjkgMi45NDJ2OC42NjloMi41NjYgdi04LjY2OWMwLTEuNjI2IDEuMzIxLTIuOTQyIDIuOTUtMi45NDJjMS42MjEgMCAyLjkgMS4zIDIuOSAyLjk0MnY4LjY2OWgyLjU2OXYtOC42NjkgQzEyNS4wNjYgNDUuOSAxMjIuNiA0My40IDExOS42IDQzLjQ4NXoiIGNsYXNzPSJzdHlsZTAiLz48cGF0aCBkPSJNMTY2LjkzOSA0My40NjZjLTQuMDIgMC03LjI3OCAzLjI2Ni03LjI3OCA3LjI5NGMwIDQgMy4zIDcuMyA3LjMgNy4zIGMxLjgwMyAwIDMuNDQzLTAuNjMgNC43MDMtMS43Yy0wLjIyMSAyLjQwMi0yLjIzNSA0LjI4NC00LjcwMyA0LjI4NGgtNC43MTd2Mi41N2g0LjcxN2M0LjAzIDAgNy4yOTctMy4yNjkgNy4yOTctNy4yOTZWNTAuNzggaC0wLjA0NEMxNzQuMTkyIDQ2LjcgMTcxIDQzLjQgMTY2LjkgNDMuNDY2eiBNMTY2LjkxOCA1NS40MjJjLTIuNjEzIDAtNC42OTMtMi4wNzktNC42OTMtNC42OTMgYzAtMi42MDcgMi4xMDktNC43MjggNC43MTctNC43MjhjMi42MjIgMCA0LjcgMi4xIDQuNyA0LjcyOHYwLjAwN2wwLjAyMSAwLjAzQzE3MS42OTMgNTMuNCAxNjkuNiA1NS41IDE2Ni45IDU1LjQgeiIgY2xhc3M9InN0eWxlMCIvPjxwYXRoIGQ9Ik0xNTAuNTk1IDQzLjQ4NWgtMC4wMzNjLTQuMDI5IDAtNy4yOTIgMy4yNjctNy4yOTIgNy4yOTN2Ni44ODZoMi41NjN2LTYuODg2IGMwLTIuNjA3IDIuMTA5LTQuNzI4IDQuNzI4LTQuNzI4YzIuNjA4IDAgNC43IDIuMSA0LjcgNC43Mjh2Ni44ODZoMi41NjR2LTYuODg2QzE1Ny44NCA0Ni43IDE1NC42IDQzLjQgMTUwLjYgNDMuNSB6IiBjbGFzcz0ic3R5bGUwIi8+PC9zdmc+') no-repeat center;
+  }
+}
+
+.main-nav {
+  float: right;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: block;
+    float: left;
+
+    a {
+      color: $white;
+      display: inline-block;
+      height: 3.8rem;
+      line-height: 3.8rem;
+      padding: 0 1.6rem;
+      margin: 0 1rem 0 0;
+      font-weight: 400;
+      text-align: center;
+      border-radius: 3px;
+      background: rgba($white, .25);
+      transition: .15s all;
+
+      .icon-github {
+        position: relative;
+        top: .4rem;
+        font-size: 2.2rem;
+        margin: 0 .8rem 0 0;
+      }
+
+      &:hover, &:active, &:focus{
+        color: $red;
+        border-color: transparent;
+        background: rgba($white, 1);
+      }
+    }
+  }
+}
+
+
+/* =====================================================================
+ * Site footer
+ * ===================================================================== */
+
+.colophon {
+  background: $black;
+  font-size: 1.6rem;
+  width: 96rem;
+  margin: 0 auto;
+  box-sizing: content-box;
+  padding: 9rem calc(50% - 48rem);
+
+  h5 {
+    color: $liteblack;
+    margin: 0 0 1.6rem 0;
+  }
+
+  li {
+    list-style: none;
+    line-height: 2;
+  }
+
+  .copyright {
+    text-align: center;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+}
+
+
+/* =====================================================================
+ * Content sections
+ * ===================================================================== */
+
+// Opacity pulse animation
+@keyframes pulse {
+  0%, 100% { opacity: .25; }
+  50%      { opacity:  1;  }
+}
+
+.content > section {
+  width: 66rem;
+  margin: 0 auto;
+  overflow: hidden;
+  box-sizing: content-box;
+  padding: 12rem calc(50% - 33rem);
+
+  &:first-of-type { padding-top: 18rem; }
+
+  // Narrow layout
+  &.narrow { width: 600px; }
+
+  // Wide layout
+  &.wide {
+    width: 96rem;
+    margin: 0 auto;
+    box-sizing: content-box;
+    padding-left: calc(50% - 48rem);
+    padding-right: calc(50% - 48rem);
+
+    .normal-width {
+      max-width: 66rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // Full-width layout
+  &.full-width {
+    max-width: none;
+    width: 100%;
+  }
+
+  // Tall layout
+  &.tall {
+    padding-top: 18rem;
+    padding-bottom: 18rem;
+  }
+
+  // Short layout
+  &.short {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
+  // Colored sections
+  &.red    { background-color: $red;    }
+  &.blue   { background-color: $blue;   }
+  &.gray   { background-color: $gray;   }
+  &.green  { background-color: $green;  }
+  &.white  { background-color: $white;  }
+  &.black  { background-color: $black;  }
+  &.yellow { background-color: $yellow; }
+  &.orange { background-color: $orange; }
+  &.purple { background-color: $purple; }
+
+  // Light-on-dark color schemes
+  &.red, &.blue, &.green, &.black, &.orange, &.purple, &.gray, &.yellow {
+    color: rgba($white, .55);
+    th, h1, h2, h3, h4, h5, h6, { color: $white; }
+  }
+
+  // Banner sections
+  &.banner {
+    padding-bottom: 15rem;
+
+    h1, h2, h3, h4, h5, h6 { color: $white; }
+
+    p {
+      max-width: 600px;
+      margin-top: -2rem;
+      color: rgba($white, .6);
+      font-size: 1.8rem;
+      line-height: 1.8;
+
+      &.center-text {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    &.center-text {
+      p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    &.white {
+      h1, h2, h3, h4, h5, h6 { color: $black; }
+    }
+  }
+
+  // Landing hero
+  &.landing-hero {
+    text-align: center;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    // background: $cream;
+    // background: #E6E9ED url('../images/iphone-white.jpg') no-repeat center bottom;
+    background-size: cover;
+
+    > div {
+      display: table;
+      width: 100%;
+      height: auto;
+      margin: auto;
+      position: absolute;
+      top: -6rem;
+      left: 0;
+      bottom: 0;
+      right: 0;
+
+      h1 {
+        margin: 0;
+        width: 100%;
+        max-width: 30rem;
+        height: 20rem;
+        background: url('../images/authful.svg') no-repeat center;
+        background-size: 100% auto;
+      }
+
+      p {
+        color: $black;
+        font-size: 2.4rem;
+        max-width: 30rem;
+        margin: 2rem auto 0 auto;
+
+        a {
+          display: inline-block;
+          margin: 3rem 0 0 0;
+          font-size: 1.6rem;
+        }
+
+        span {
+          position: relative;
+          top: .2rem;
+          margin: 0 .2rem;
+        }
+      }
+    }
+
+    .scroll-trigger {
+      width: 4rem;
+      height: 4rem;
+      font-size: 4rem;
+      position: absolute;
+      bottom: 4rem;
+      left: 50%;
+      color: $red;
+      margin: 0 0 0 -2.5rem;
+      animation: pulse 2s infinite;
+
+      &:hover { animation: none; }
+    }
+  }
+
+  // Remove margin/padding from first element
+  > *:first-child,
+  > *:first-child > *:first-child,
+  > *:first-child > *:first-child {
+    margin-top: 0;
+    padding-top: 0;
+
+    &.title-bar { padding-top: 40px; }
+  }
+
+  // Remove margin/padding from last element
+  > *:last-child,
+  > *:last-child > *:last-child,
+  > *:last-child > *:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  // Extra margin on horizontal rules
+  hr { margin: 9rem 0; }
+}
+
+
+/* =====================================================================
+ * Column spacing
+ * ===================================================================== */
+
+.column {
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+
+  &.no-alley      { padding-left: 0;     padding-right: 0;      }
+  &.small-alley   { padding-left: 1.0%;  padding-right: 1.0%;   }
+  &.normal-alley  { padding-left: 1.75%; padding-right: 1.75%;  }
+  &.large-alley   { padding-left: 2.5%;  padding-right: 2.5%;   }
+  &.larger-alley  { padding-left: 3.5%;  padding-right: 3.5%;   }
+
+  &:first-of-type {
+    padding-left: 0;
+    padding-right: 3.5%;
+
+    &.no-alley        { padding-right: 0;    }
+    &.small-alley     { padding-right: 2%;   }
+    &.normal-alley    { padding-right: 3.5%; }
+    &.large-alley     { padding-right: 5%;   }
+    &.larger-alley    { padding-right: 7%;   }
+    &[class*="-icon"] { padding-right: 1rem; }
+  }
+
+  &:last-of-type  {
+    padding-right: 0;
+    padding-left: 3%;
+
+    &.no-alley        { padding-left: 0;    }
+    &.small-alley     { padding-left: 2%;   }
+    &.normal-alley    { padding-left: 3.5%; }
+    &.large-alley     { padding-left: 5%;   }
+    &.larger-alley    { padding-left: 7%;   }
+    &[class*="-icon"] { padding-left: 1rem; }
+  }
+}
+
+
+/* =====================================================================
+ * Colored cards
+ * ===================================================================== */
+
+*[class*="card"] {
+  padding: 3rem;
+
+  > *:last-child,
+  > *:last-child > *:last-child,
+  > *:last-child > *:last-child > *:last-child { margin-bottom: 0; }
+}
+
+.white-card {
+  background: $white;
+  border: .2rem solid rgba($black, .05);
+}
+
+.gray-card { background: $gray; }
+
+.black-card {
+  color: $gray;
+  background: $black;
+
+  th, td { border-top-color: $liteblack; }
+
+  th, h1, h2, h3, h4, h5, h6, { color: $litegray; }
+}
+
+.outline-card { border: .3rem solid rgba($black, .15); }
+
+
+/* =====================================================================
+ * Tables
+ * ===================================================================== */
+
+table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1.7rem;
+
+  &.striped tbody tr:nth-child(odd) { background: rgba($black, .02); }
+
+  a:hover, a:active, a:focus { color: $black; }
+}
+
+th {
+  color: $black;
+  vertical-align: bottom;
+}
+
+th, td {
+  line-height: 1.8rem;
+  text-align: center;
+  vertical-align: middle;
+  padding: 2.2rem 1rem;
+  border-top: .2rem solid rgba($black, .035);
+}
+
+td { vertical-align: top; }
+
+thead:first-child tr th,
+thead:first-child tr td { border-top: 0; }
+
+tfoot td {
+  color: $gray;
+  background: $black;
+  border-color: transparent;
+  padding: 3rem .8rem;
+}
+
+
+/* ==========================================================================
+ * Forms
+ * ========================================================================== */
+
+form {
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  legend {
+    font-size: 3.2rem;
+    color: $black;
+    line-height: 1.325;
+    font-weight: 200;
+    margin: 0 0 3rem 0;
+  }
+
+  label {
+    display: inline-block;
+    font-size: 1.6rem;
+    font-style: italic;
+    margin: 3rem 0 .6rem 0;
+
+    &:first-of-type { margin-top: 0; }
+  }
+
+  h2 {
+    font-weight: 400;
+    font-size: 2.4rem;
+    margin: 0;
+  }
+
+}
+
+input {
+  outline: none;
+  width: 100%;
+  border: .2rem solid $litegray;
+  border-radius: .3rem;
+  padding: 1rem 1.4rem;
+  transition: .15s border-color;
+
+  &:focus {
+    color: $black;
+    border-color: $black;
+  }
+}
+
+// Placeholder text
+::-webkit-input-placeholder { color: $liteblack; }
+:-moz-placeholder           { color: $liteblack; }
+::-moz-placeholder          { color: $liteblack; }
+:-ms-input-placeholder      { color: $liteblack; }
+
+:focus::-webkit-input-placeholder { color: $black; }
+:focus:-moz-placeholder           { color: $black; }
+:focus::-moz-placeholder          { color: $black; }
+:focus:-ms-input-placeholder      { color: $black; }
+
+
+/* ==========================================================================
+ * Modals
+ * ========================================================================== */
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: table;
+  width: 83.5%;
+  max-width: 66rem;
+  min-width: 32rem;
+  height: auto;
+  z-index: 2000;
+  overflow: hidden;
+  background: $white;
+  border-radius: .3rem;
+  transform: scale(2);
+  transition: .25s all;
+  backface-visibility: hidden;
+
+  // Header
+  .modal-header {
+    padding: 3rem;
+    text-align: center;
+    border-bottom: .2rem solid $litegray;
+
+    > * { margin: 0; }
+  }
+
+  // Content
+  .modal-content {
+    padding: 3rem;
+    font-size: 1.6rem;
+
+    h1, h2, h3, h4, h5, h6,
+    p, table, ul, ol, dl, img { margin: 0 0 2rem 0; }
+
+    // Remove padding
+    &.flush { padding: 0; }
+
+    // Remove margin/padding from first element
+    > *:first-child,
+    > *:first-child > *:first-child,
+    > *:first-child > *:first-child {
+      margin-top: 0;
+      padding-top: 0;
+
+      &.title-bar { padding-top: 40px; }
+    }
+
+    // Remove margin/padding from last element
+    > *:last-child,
+    > *:last-child > *:last-child,
+    > *:last-child > *:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+// Visible state
+.modal-show {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+}
+
+// Body overlay
+.modal-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  background: rgba($black, .9);
+  transition: .25s all;
+}
+
+// Overlay visible state
+.modal-show ~ .modal-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+// Close button
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 2.6rem;
+  padding: .1rem 1.2rem;
+  transition: .15s color;
+
+  &:hover { color: $red; }
+}
+
+
+/* =====================================================================
+ * Element dimensions
+ * ===================================================================== */
+
+.one-fifth     { width: 20%;     }
+.one-fourth    { width: 25%;     }
+.two-fifths    { width: 40%;     }
+.one-third     { width: 33.333%; }
+.one-half      { width: 50%;     }
+.three-fifths  { width: 60%;     }
+.two-thirds    { width: 66.666%; }
+.three-fourths { width: 75%;     }
+.four-fifths   { width: 80%;     }
+.full-width    { max-width: none; width: 100%; }
+
+
+/* =====================================================================
+ * Element alignment
+ * ===================================================================== */
+
+.flush-top      { vertical-align: top;    }
+.flush-bottom   { vertical-align: bottom; }
+
+.flush-left  { float: left;  }
+.flush-right { float: right; }
+
+.center-vertically {
+  vertical-align: middle;
+
+  > *:last-child,
+  > * > *:last-child,
+  > * > * > *:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.center-horizontally {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* =====================================================================
+ * Element margin (gutter) control
+ * ===================================================================== */
+
+.smaller-gutter { margin-bottom: 2rem;  }
+.small-gutter   { margin-bottom: 3rem;  }
+.normal-gutter  { margin-bottom: 5rem;  }
+.large-gutter   { margin-bottom: 6rem;  }
+.larger-gutter  { margin-bottom: 15rem; }
+
+
+/* ==========================================================================
+ * Helper classes
+ * ========================================================================== */
+
+// Image replacement
+.ir {
+  display: inline-block;
+  border: 0;
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+}
+
+// Hide from both screenreaders and browsers
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+// Hide only visually, but have it available for screenreaders
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+
+  // Allows the element to be focusable when navigated to via the keyboard
+  &.focusable:active, &.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+  }
+}
+
+// Hide visually and from screenreaders, but maintain layout
+.invisible { visibility: hidden; }
+
+
+/* =====================================================================
+ * Media queries
+ * ===================================================================== */
+
+// Screens smaller than 700px wide
+ @media screen and (max-width: 700px) {
+
+  .row, .column {
+    display: block;
+    width: 100%;
+    margin: 0 0 4rem 0;
+  }
+  .content > section,
+  .content > section.tall,
+  .content > section.short {
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+
+    .title-bar { top: -9rem; }
+  }
+
+}
+
+// Screens smaller than 785px wide
+@media (max-width: 785px) {
+
+  .content > section {
+    width: 100%;
+    padding: 12rem 8.25%;
+    box-sizing: border-box;
+  }
+
+}
+
+// Screens smaller than 1150px wide
+@media screen and (max-width: 1150px) {
+
+  .content > section.wide, .colophon {
+    width: 100%;
+    padding-left: 8.25%;
+    padding-right: 8.25%;
+    box-sizing: border-box;
+  }
+
+}

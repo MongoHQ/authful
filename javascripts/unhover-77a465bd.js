@@ -1,0 +1,1 @@
+var root=document.documentElement,timer;window.addEventListener("scroll",function(){clearTimeout(timer),root.style.pointerEvents||(root.style.pointerEvents="none"),timer=setTimeout(function(){root.style.pointerEvents=""},150)},!1);

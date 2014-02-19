@@ -1,0 +1,1 @@
+var handler=StripeCheckout.configure({key:"pk_5KepSxyWPNcRaHdJzsxXircnQqZzr",image:"/square-image.png",token:function(e,n){console.log(e,n),document.getElementById("stripe-token").value=e}});document.getElementById("checkout-button").addEventListener("click",function(e){handler.open({name:"MongoHQ",description:"Elastic Deployment ($18/GB)"}),e.preventDefault()});

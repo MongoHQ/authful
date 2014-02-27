@@ -1,0 +1,21 @@
+development:
+  sessions:
+    default:
+      uri: mongodb://localhost/authful
+      options:
+
+production:
+  sessions:
+    default:
+      uri: <%= ENV['MONGO_URL'] %>
+      options:
+
+test:
+  sessions:
+    default:
+      uri: mongodb://localhost/authful_test
+      options:
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0

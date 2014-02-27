@@ -1,0 +1,2 @@
+module QrHelper
+end

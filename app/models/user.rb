@@ -47,7 +47,8 @@ class User
 
   def validate(token)
     totp = ROTP::TOTP.new(self.secret)
-    [-90, -60, -30, 0, 30, 60, 90].any?{|t| totp.verify(token, t.seconds.ago)}
+    valid_window = 5.minutes # window of time to accept valid codes
+    (-valid_window .. valid_window).step(30).map(&:to_i).any?{|t| totp.verify(token, t.seconds.ago)}
   end
 
   def generate_recovery_codes

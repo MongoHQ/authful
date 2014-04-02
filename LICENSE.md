@@ -1,3 +1,5 @@
+Simplified BSD License
+
 Copyright (c) 2014, MongoHQ, Inc.
 All rights reserved.
 

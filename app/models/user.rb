@@ -87,7 +87,7 @@ class User
       $twilio.account.messages.create(
         :from => "+#{$twilio_default_from}",
         :to => "+#{self.fallback_phone}",
-        :body => "This is a confirmation that you configured this number as your MongoHQ two-factor authentication fallback number."
+        :body => "This is a confirmation that you configured this number as your Compose two-factor authentication fallback number."
       )
 
       [true, "SMS message sent with welcome message."]

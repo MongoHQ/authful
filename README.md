@@ -17,9 +17,9 @@ There is additional information further along in the documentation that explains
 
 ## About
 
-Authful was originally written as an internal application to provide MongoHQ customers with the option to enable and configure two factor authentication, thereby increasing the level of security required when accessing their MongoHQ accounts.
+Authful was originally written as an internal application to provide Compose customers with the option to enable and configure two factor authentication, thereby increasing the level of security required when accessing their Compose accounts.
 
-So, why did we create our own implementation? After evaluating some of the popular two factor services on the market, we noticed that they required users to use their mobile apps and we did not want our customers to be required to use a specific app just to turn on 2FA in MongoHQ. We wanted to keep it open.
+So, why did we create our own implementation? After evaluating some of the popular two factor services on the market, we noticed that they required users to use their mobile apps and we did not want our customers to be required to use a specific app just to turn on 2FA in Compose. We wanted to keep it open.
 
 We have open-sourced this tool and codebase so the community can easily and safely implement a two factor authentication solution, as well, that does not force their customers to be locked into a specific vendor’s mobile app.
 
@@ -31,7 +31,7 @@ We are accepting pull requests that add or improve a basic web interface for vie
 * MongoDB 2.2.4 or higher
 * A Twilio account (for SMS delivery)
 
-We assume that you have a local version of MongoDB running (we recommend brew to install) or you can use a hosted MongoDB service (like [MongoHQ](https://www.mongohq.com/signup). I hear those guys are pretty swell.) to run MongoDB for you in both development and production environments.
+We assume that you have a local version of MongoDB running (we recommend brew to install) or you can use a hosted MongoDB service (like [Compose](https://www.compose.io/signup). I hear those guys are pretty swell.) to run MongoDB for you in both development and production environments.
 
 ## Getting Started
 After cloning the project, do the following to get started:

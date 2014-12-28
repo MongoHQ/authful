@@ -54,8 +54,14 @@ module Authful
 
           res = {ok: 1, token: user.token, email: user.email, secret: user.secret}
           if user.sms_user?
-            send_sms(user)
-            res.merge!(phone: user.phone)
+            status, message = user.send_sms
+
+            if status
+              res.merge!(phone: user.phone)
+            else
+              user.destroy
+              error!({error: message}, 400)
+            end
           else
             res.merge!(qr_code: qr_url(user))
           end

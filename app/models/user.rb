@@ -16,7 +16,7 @@ class User
 
   validates :token, presence: true, uniqueness: { scope: :account_id }
   validates :email, presence: true, uniqueness: { scope: :account_id }
-  validates :phone, uniqueness: { allow_blank: true, scope: :account_id }, phone: { allow_blank: true, possible: true }
+  validates :phone, phone: { allow_blank: true, possible: true }
   validates :fallback_phone, phone: { allow_nil: true, possible: true }
   validates :secret, presence: true
   validates :account_id, presence: true

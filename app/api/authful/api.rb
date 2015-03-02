@@ -29,9 +29,11 @@ module Authful
 
         if user.sms_user?
           unless status
+            Bugsnag.notify(RuntimeError.new("Error sending SMS: #{message}"))
             error!({error: message}, 400)
           end
         else
+          Bugsnag.notify(RuntimeError.new("Error sending SMS, no phone for user."))
           error!({error: "no phone for user"}, 409)
         end
 
@@ -47,26 +49,25 @@ module Authful
       end
       post '/' do
         require_account!
-        if user = User.where(email: params[:email]).first
-          error!({error: "already enrolled"}, 409)
-        else
-          user = User.create!(account: current_account, email: params[:email], phone: params[:phone])
 
-          res = {ok: 1, token: user.token, email: user.email, secret: user.secret}
-          if user.sms_user?
-            status, message = user.send_sms
+        user = User.where(email: params[:email], account: current_account).first ||
+          User.create!(account: current_account, email: params[:email], phone: params[:phone])
 
-            if status
-              res.merge!(phone: user.phone)
-            else
-              user.destroy
-              error!({error: message}, 400)
-            end
+        res = {ok: 1, token: user.token, email: user.email, secret: user.secret}
+        if user.sms_user?
+          status, message = user.send_sms
+
+          if status
+            res.merge!(phone: user.phone)
           else
-            res.merge!(qr_code: qr_url(user))
+            user.destroy
+            Bugsnag.notify(RuntimeError.new("Error creating user, could not send SMS."))
+            error!({error: message}, 400)
           end
-          return res
+        else
+          res.merge!(qr_code: qr_url(user))
         end
+        return res
       end
 
       desc "view a user"
@@ -137,6 +138,7 @@ module Authful
           current_user.update_attributes!(fallback_phone: params[:phone])
           current_user.send_fallback_sms(true)
         rescue
+          Bugsnag.auto_notify($!)
           error!({error: "couldn't update phone for user"}, 400)
         end
 

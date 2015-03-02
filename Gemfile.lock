@@ -53,6 +53,9 @@ GEM
       debug_inspector (>= 0.0.1)
     bson (2.0.0)
     bson_ext (1.5.1)
+    bugsnag (2.5.0)
+      httparty (>= 0.6, < 1.0)
+      multi_json (~> 1.0)
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
@@ -110,6 +113,9 @@ GEM
       rspec (>= 2.14, < 4.0)
     hashie (2.0.5)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     ice_nine (0.11.0)
     jbuilder (1.5.3)
@@ -250,6 +256,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
+  bugsnag
   coffee-rails (~> 4.0.0)
   debugger
   factory_girl

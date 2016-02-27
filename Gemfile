@@ -34,14 +34,12 @@ group :production do
 end
 
 group :test, :development do
-  gem 'debugger'
+  gem 'byebug'
   gem 'rspec', '~> 2.14.0'
   gem 'rspec-rails', '~> 2.14.0'
   gem 'shoulda-matchers', require: "shoulda/matchers"
   gem 'guard-rspec', '~> 4.2.0'
   gem 'guard-bundler'
-  gem 'pry-debugger'
-  gem 'pry-stack_explorer'
   gem 'growl'
   gem 'factory_girl'
 end

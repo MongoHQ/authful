@@ -1,7 +1,7 @@
 development:
   sessions:
     default:
-      uri: mongodb://localhost/authful
+      uri: <%= ENV['MONGO_URL'] || "mongodb://localhost/authful" %>
       options:
 
 production:

@@ -1,7 +1,7 @@
 Account.delete_all
 User.delete_all
 
-a = Account.create(name: "Authful Development", )
+a = Account.create(name: "Authful Development", token: "test")
 u = User.create(account: a, email: "dummy@authful.com", qr_expiration: 10.minutes.from_now)
 otp = u.generate_otp
 

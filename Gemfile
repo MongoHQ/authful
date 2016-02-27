@@ -4,8 +4,7 @@ gem 'rails', '4.0.0'
 gem 'grape'
 gem 'rack-ssl-enforcer'
 
-gem 'mongoid', github: 'mongoid/mongoid'
-gem 'moped', github: 'mongoid/moped'
+gem 'mongoid', '~> 4.0.2'
 gem 'bson_ext'
 
 gem 'twilio-ruby', '>= 3.11.4'

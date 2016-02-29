@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Authful::API do
 
-  before :all do
-    @user = create(:user)
+  before :each do
+    @user = FactoryGirl.create(:user)
     @account = @user.account
   end
 
@@ -19,7 +19,7 @@ describe Authful::API do
   end
 
   it "does not return user that does not belong to account" do
-    get "/api/users/#{create(:user).token}/send_sms", {}, {"Api-Token" => @account.token}
+    get "/api/users/#{FactoryGirl.create(:user).token}/send_sms", {}, {"Api-Token" => @account.token}
 
     response.status.should eq(404)
   end
@@ -98,7 +98,7 @@ it "enroll an valid app user with blank sms" do
   end
 
   it "unenrolls a user" do
-    @user_a = create(:user)
+    @user_a = FactoryGirl.create(:user)
     @account_a = @user_a.account
 
     user_count_changes_by(-1) do
@@ -112,9 +112,9 @@ it "enroll an valid app user with blank sms" do
   end
 
   it "doesn't unenroll a user on different account" do
-    @user_a = create(:user)
+    @user_a = FactoryGirl.create(:user)
     @account_a = @user_a.account
-    @user_b = create(:user)
+    @user_b = FactoryGirl.create(:user)
     @account_b = @user_b.account
 
     user_count_changes_by(0) do
@@ -168,7 +168,7 @@ it "enroll an valid app user with blank sms" do
   end
 
   it "unenrolls valid users" do
-    user = create(:user, account: @account)
+    user = FactoryGirl.create(:user, account: @account)
 
     user_count_changes_by(-1) do
       delete "/api/users/#{user.token}", {}, {"Api-Token" => @account.token}
@@ -229,7 +229,7 @@ it "enroll an valid app user with blank sms" do
   end
 
   it "does not send sms to invalid phone number" do
-    user = create(:user, phone: "15005550004", account: @account) # A twilio error number from https://www.twilio.com/docs/api/rest/test-credentials
+    user = FactoryGirl.create(:user, phone: "15005550004", account: @account) # A twilio error number from https://www.twilio.com/docs/api/rest/test-credentials
     get "/api/users/#{user.token}/send_sms", {}, {"Api-Token" => @account.token}
 
     response.status.should eq(400)
@@ -237,7 +237,7 @@ it "enroll an valid app user with blank sms" do
     r = JSON.parse(response.body)
     r["error"].should eq("Message did not send. Twilio returned error code 21610; message: The message From/To pair violates a blacklist rule.")
   end
-  
+
   it "sets a fallback phone number" do
     phone = "12055551212"
 
@@ -266,7 +266,7 @@ it "enroll an valid app user with blank sms" do
   end
 
   it "resets a valid user" do
-    user = create(:user, account: @account)
+    user = FactoryGirl.create(:user, account: @account)
     user_field_change(user, :secret, true) do
       patch "/api/users/#{user.token}/reset", {}, {"Api-Token" => @account.token}
 

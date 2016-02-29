@@ -33,12 +33,13 @@ group :production do
 end
 
 group :test, :development do
+  gem 'test-unit'
   gem 'byebug'
-  gem 'rspec', '~> 2.14.0'
-  gem 'rspec-rails', '~> 2.14.0'
-  gem 'shoulda-matchers', require: "shoulda/matchers"
+  gem 'database_cleaner'
+  gem 'rspec-rails', '~> 2.14'
+  gem 'shoulda-matchers'
   gem 'guard-rspec', '~> 4.2.0'
   gem 'guard-bundler'
   gem 'growl'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
 end

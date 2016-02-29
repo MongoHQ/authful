@@ -8,8 +8,8 @@ describe Account do
   it "has many users" do
     Account.new.should respond_to(:users)
 
-    account = create(:account)
-    create(:user, account: account)
+    account = FactoryGirl.create(:account)
+    FactoryGirl.create(:user, account: account)
     account.users.count.should eq(1)
   end
 

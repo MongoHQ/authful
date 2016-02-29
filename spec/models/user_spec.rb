@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe User do
+RSpec.describe User, type: :model do
 
   it { should validate_presence_of :token }
   it { should validate_presence_of :email }
@@ -10,22 +10,22 @@ describe User do
   it "generates a token & secret on create" do
     account = FactoryGirl.create(:account)
     u = User.create(FactoryGirl.attributes_for(:user).merge(account: account))
-    u.token.should_not be_nil
-    u.secret.should_not be_nil
+    expect(u.token).to_not be_nil
+    expect(u.secret).to_not be_nil
   end
 
   it "returns a token on generate" do
-    User.generate_token(6).length.should eq(6)
+    expect(User.generate_token(6).length).to eq(6)
   end
 
   it "validates token" do
     u = FactoryGirl.create(:user)
-    u.validate(u.generate_otp).should eq(true)
+    expect(u.validate(u.generate_otp)).to eq(true)
   end
 
   it "does not validate invalid token" do
     u = FactoryGirl.create(:user)
-    u.validate("000000").should_not eq(true)
+    expect(u.validate("000000")).to_not eq(true)
   end
 
   it "sends an sms with the token" do
@@ -47,7 +47,7 @@ describe User do
 
   it "responds with a url to a qr_code" do
     u = FactoryGirl.create(:user)
-    u.qr_url.should eq("/qr/#{u.token}.png")
+    expect(u.qr_url).to eq("/qr/#{u.token}.png")
   end
 
   context "when twilio fails" do
@@ -58,13 +58,13 @@ describe User do
     # +15005550001	This phone number is invalid.	21212
     it "catches Twilio error 21212 properly" do
       test_different_send_number("15005550001") do
-        FactoryGirl.create(:user).send_sms[0].should eq(false)
+        expect(FactoryGirl.create(:user).send_sms[0]).to eq(false)
       end
     end
 
     # +15005550003	Your account doesn't have the international permissions necessary to SMS this number.	21408
     it "catches Twilio error 21408 properly" do
-      FactoryGirl.create(:user, phone: "15005550003").send_sms[0].should eq(false)
+      expect(FactoryGirl.create(:user, phone: "15005550003").send_sms[0]).to eq(false)
     end
   end
 

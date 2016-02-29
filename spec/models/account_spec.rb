@@ -1,20 +1,20 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe Account do
+RSpec.describe Account, type: :model do
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :token }
 
   it "has many users" do
-    Account.new.should respond_to(:users)
+    expect(Account.new).to respond_to(:users)
 
     account = FactoryGirl.create(:account)
     FactoryGirl.create(:user, account: account)
-    account.users.count.should eq(1)
+    expect(account.users.count).to eq(1)
   end
 
   it "generates token when created" do
     a = Account.create!(name: "bob")
-    a.token.should_not be_nil
+    expect(a.token).to_not be_nil
   end
 end

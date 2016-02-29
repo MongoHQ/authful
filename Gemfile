@@ -23,7 +23,7 @@ group :test, :development do
   gem 'byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'rspec-rails', '~> 2.14'
+  gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
   gem 'test-unit'
 end

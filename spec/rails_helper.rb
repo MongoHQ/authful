@@ -1,5 +1,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
+# test Twilio credentials
+ENV['TWILIO_SID']   ||= "ACc511e5b1b1224b8565168bb9be0fb2b2"
+ENV['TWILIO_TOKEN'] ||= "568a74c895efaf14f2792aa70ac2dba8"
+ENV['TWILIO_FROM']  ||= "15005550006"
+
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?

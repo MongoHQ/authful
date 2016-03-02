@@ -34,9 +34,9 @@ RSpec.describe User, type: :model do
     expect(u).to receive(:generate_otp).
       and_return("000000")
 
-    expect($twilio.account.messages).to receive(:create).
+    expect(u.twilio_client.account.messages).to receive(:create).
       with({
-        from: "+#{$twilio_default_from}",
+        from: "+#{u.twilio_client.default_from}",
         to:   "+#{u.phone}",
         body: "code: 000000"
       }).
@@ -57,9 +57,10 @@ RSpec.describe User, type: :model do
 
     # +15005550001	This phone number is invalid.	21212
     it "catches Twilio error 21212 properly" do
-      test_different_send_number("15005550001") do
-        expect(FactoryGirl.create(:user).send_sms[0]).to eq(false)
-      end
+      u = FactoryGirl.create(:user)
+      expect(u.twilio_client).to receive(:default_from).and_return("15005550001")
+
+      expect(u.send_sms[0]).to eq(false)
     end
 
     # +15005550003	Your account doesn't have the international permissions necessary to SMS this number.	21408
@@ -67,12 +68,4 @@ RSpec.describe User, type: :model do
       expect(FactoryGirl.create(:user, phone: "15005550003").send_sms[0]).to eq(false)
     end
   end
-
-  def test_different_send_number(new_number, &block)
-    old_number = $twilio_default_from
-    $twilio_default_from = new_number
-    block.call
-    $twilio_default_from = old_number
-  end
-
 end

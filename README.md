@@ -44,7 +44,7 @@ After cloning the project, do the following to get started:
 
 For **MongoDB**, configure your mongoid.yml file to point to your instance of MongoDB, either local or hosted.
 
-For **Twilio**, set these environment variables in your `config/initializers/twilio.rb` file.
+For **Twilio**, set these environment variables:
 * TWILIO_SID
 * TWILIO_TOKEN
 * TWILIO_FROM

@@ -1,13 +1,13 @@
 development:
   sessions:
     default:
-      uri: <%= ENV['MONGO_URL'] || "mongodb://localhost/authful" %>
+      uri: <%= ENV['MONGO_URL'] || "mongodb://localhost/authful_dev" %>
       options:
 
 production:
   sessions:
     default:
-      uri: <%= ENV['MONGO_URL'] %>
+      uri: <%= ENV['MONGO_URL'] || "mongodb://localhost/authful_prod" %>
       options:
 
 test:

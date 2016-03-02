@@ -70,8 +70,8 @@ class User
   end
 
   def send_sms(fallback = false)
-    $twilio.account.messages.create(
-      :from => "+#{$twilio_default_from}",
+    twilio_client.account.messages.create(
+      :from => "+#{twilio_client.default_from}",
       :to => "+#{fallback ? self.fallback_phone : self.phone}",
       :body => "code: #{self.generate_otp}"
     )
@@ -85,8 +85,8 @@ class User
 
   def send_fallback_sms(welcome = false)
     if welcome
-      $twilio.account.messages.create(
-        :from => "+#{$twilio_default_from}",
+      twilio_client.account.messages.create(
+        :from => "+#{twilio_client.default_from}",
         :to => "+#{self.fallback_phone}",
         :body => "This is a confirmation that you configured this number as your Compose two-factor authentication fallback number."
       )
@@ -120,5 +120,9 @@ class User
 
   def qr_url
     qr_code_path(id: self.token)
+  end
+
+  def twilio_client
+    @_twilio_client ||= TwilioClient.new
   end
 end

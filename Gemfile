@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.2.5'
 gem 'grape'
 gem 'rack-ssl-enforcer'
 
-gem 'mongoid', github: 'mongoid/mongoid'
-gem 'moped', github: 'mongoid/moped'
+gem 'mongoid', '~> 4.0.2'
 gem 'bson_ext'
 
 gem 'twilio-ruby', '>= 3.11.4'
@@ -13,20 +12,7 @@ gem 'phonelib'
 gem 'rotp'
 gem 'rqrcode_png'
 
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-gem 'jquery-rails'
-gem 'turbolinks'
-gem 'jbuilder', '~> 1.2'
 gem "bugsnag"
-
-group :doc do
-  gem 'sdoc', require: false
-end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
 group :production do
@@ -34,14 +20,10 @@ group :production do
 end
 
 group :test, :development do
-  gem 'debugger'
-  gem 'rspec', '~> 2.14.0'
-  gem 'rspec-rails', '~> 2.14.0'
-  gem 'shoulda-matchers', require: "shoulda/matchers"
-  gem 'guard-rspec', '~> 4.2.0'
-  gem 'guard-bundler'
-  gem 'pry-debugger'
-  gem 'pry-stack_explorer'
-  gem 'growl'
-  gem 'factory_girl'
+  gem 'byebug'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'shoulda-matchers'
+  gem 'test-unit'
 end

@@ -1,5 +1,3 @@
-deployment:
-  production:
-    branch: master
-    heroku:
-      appname: authful
+machine:
+  ruby:
+    version: 2.2.3

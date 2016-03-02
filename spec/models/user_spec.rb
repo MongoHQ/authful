@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe User do
+RSpec.describe User, type: :model do
 
   it { should validate_presence_of :token }
   it { should validate_presence_of :email }
@@ -8,28 +8,28 @@ describe User do
   it { should validate_presence_of :account_id }
 
   it "generates a token & secret on create" do
-    account = create(:account)
-    u = User.create(attributes_for(:user).merge(account: account))
-    u.token.should_not be_nil
-    u.secret.should_not be_nil
+    account = FactoryGirl.create(:account)
+    u = User.create(FactoryGirl.attributes_for(:user).merge(account: account))
+    expect(u.token).to_not be_nil
+    expect(u.secret).to_not be_nil
   end
 
   it "returns a token on generate" do
-    User.generate_token(6).length.should eq(6)
+    expect(User.generate_token(6).length).to eq(6)
   end
 
   it "validates token" do
-    u = create(:user)
-    u.validate(u.generate_otp).should eq(true)
+    u = FactoryGirl.create(:user)
+    expect(u.validate(u.generate_otp)).to eq(true)
   end
 
   it "does not validate invalid token" do
-    u = create(:user)
-    u.validate("000000").should_not eq(true)
+    u = FactoryGirl.create(:user)
+    expect(u.validate("000000")).to_not eq(true)
   end
 
   it "sends an sms with the token" do
-    u = create(:user)
+    u = FactoryGirl.create(:user)
 
     expect(u).to receive(:generate_otp).
       and_return("000000")
@@ -46,8 +46,8 @@ describe User do
   end
 
   it "responds with a url to a qr_code" do
-    u = create(:user)
-    u.qr_url.should eq("/qr/#{u.token}.png")
+    u = FactoryGirl.create(:user)
+    expect(u.qr_url).to eq("/qr/#{u.token}.png")
   end
 
   context "when twilio fails" do
@@ -55,16 +55,16 @@ describe User do
       sleep 1 # Twilio has a rate limit
     end
 
-    # +15005550001	This phone number is invalid.	21212 
+    # +15005550001	This phone number is invalid.	21212
     it "catches Twilio error 21212 properly" do
       test_different_send_number("15005550001") do
-        create(:user).send_sms[0].should eq(false)
+        expect(FactoryGirl.create(:user).send_sms[0]).to eq(false)
       end
     end
 
     # +15005550003	Your account doesn't have the international permissions necessary to SMS this number.	21408
     it "catches Twilio error 21408 properly" do
-      create(:user, phone: "15005550003").send_sms[0].should eq(false)
+      expect(FactoryGirl.create(:user, phone: "15005550003").send_sms[0]).to eq(false)
     end
   end
 
@@ -74,5 +74,5 @@ describe User do
     block.call
     $twilio_default_from = old_number
   end
-  
+
 end
